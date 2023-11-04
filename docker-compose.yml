@@ -3,6 +3,7 @@ version: "3"
 services:
   minio:
     image: minio/minio:latest
+    restart: always
     expose:
       - "9000"
     ports:
@@ -23,6 +24,7 @@ services:
 
   minio-create-bucket:
     image: minio/mc:latest
+    restart: always
     depends_on:
       minio:
         condition: service_healthy
@@ -38,6 +40,7 @@ services:
 
   artifacts-server:
     build: .
+    restart: always
     depends_on:
       - minio-create-bucket
     expose:
@@ -68,6 +71,7 @@ services:
 
   tracking-server:
     build: .
+    restart: always
     depends_on:
       - postgres
       - artifacts-server
